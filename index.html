@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabian Nights Photo Booth</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for theme */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+        }
+        .themed-title {
+            font-family: 'Cinzel Decorative', cursive;
+        }
+        /* Hide scrollbars */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #8B5CF6;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <div class="w-full max-w-5xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-8">
+        
+        <!-- Left Column: Controls & Live Feed -->
+        <div class="w-full lg:w-1/2 flex flex-col items-center gap-4">
+            <h1 class="themed-title text-4xl md:text-5xl text-yellow-300 text-center">Arabian Nights</h1>
+            <p class="text-xl text-purple-300 text-center">Photo Booth</p>
+            
+            <div id="setup-screen" class="w-full max-w-md p-6 bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-400/30">
+                <p class="text-center mb-4">Stand in front of your green screen and click below to begin!</p>
+                <button id="start-camera" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-xl text-lg transition-transform transform hover:scale-105 shadow-lg">
+                    Start Camera
+                </button>
+            </div>
+
+            <!-- Live Video Feed -->
+            <div id="booth-active" class="hidden w-full max-w-md relative">
+                 <video id="video" autoplay playsinline class="rounded-2xl w-full h-auto aspect-video object-cover border-2 border-purple-400/50 shadow-lg"></video>
+                 <!-- Canvas for processing, hidden from view -->
+                 <canvas id="canvas" class="hidden"></canvas>
+                 <button id="snap" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold h-16 w-16 rounded-full text-lg transition-transform transform hover:scale-110 shadow-lg border-4 border-white flex items-center justify-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                 </button>
+            </div>
+        </div>
+
+        <!-- Right Column: Result -->
+        <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-4 min-h-[300px] lg:min-h-[400px]">
+            <div id="result-container" class="hidden w-full max-w-md flex flex-col items-center gap-4">
+                <h2 class="text-2xl font-bold text-yellow-300">Your Magical Portrait!</h2>
+                <img id="photo" alt="Your final photo" class="rounded-2xl w-full h-auto aspect-video object-cover border-2 border-yellow-300 shadow-lg"/>
+                <div class="flex flex-col sm:flex-row gap-4 w-full">
+                     <a id="download" href="#" download="arabian-nights-photo.png" class="flex-1 text-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl transition-transform transform hover:scale-105 shadow-lg">Download PNG</a>
+                     <button id="try-again" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-transform transform hover:scale-105 shadow-lg">Try Again</button>
+                </div>
+            </div>
+            <div id="placeholder" class="text-gray-500 flex flex-col items-center justify-center text-center">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-50 mb-4"><path d="m13 10-2 5 2 5"/><path d="m18 10-2 5 2 5"/><path d="M7 10a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M12 10a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M2 10a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M7 20a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M12 20a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M2 20a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M7 15a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M12 15a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/><path d="M2 15a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z"/></svg>
+                <p>Your final image will appear here.</p>
+            </div>
+             <div id="loading" class="hidden flex-col items-center gap-4">
+                <div class="loader"></div>
+                <p class="text-lg text-purple-300">Creating magic...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // DOM Elements
+        const startButton = document.getElementById('start-camera');
+        const setupScreen = document.getElementById('setup-screen');
+        const boothActive = document.getElementById('booth-active');
+        const resultContainer = document.getElementById('result-container');
+        const placeholder = document.getElementById('placeholder');
+        const loading = document.getElementById('loading');
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const photo = document.getElementById('photo');
+        const snap = document.getElementById('snap');
+        const downloadLink = document.getElementById('download');
+        const tryAgainButton = document.getElementById('try-again');
+
+        // Background Images
+        const backgrounds = [
+            'https://images.unsplash.com/photo-1574936293035-134adffbeb6f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXJhYmlhbiUyMG5pZ2h0c3xlbnwwfHwwfHx8MA%3D%3D',
+            'https://t3.ftcdn.net/jpg/06/38/33/96/360_F_638339675_hOwoLcFUza3cRF7nIKvGhVw1Ge3Ip9Xe.jpg',
+            'https://i.ytimg.com/vi/9jDzEmfv4zM/maxresdefault.jpg',
+            'https://c-cdnet.cdn.smule.com/rs-s36/arr/22/de/2e4b151f-7dd3-4421-be8d-760be14b9021.jpg'
+        ];
+        
+        // Start Camera Logic
+        startButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: false });
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    setupScreen.classList.add('hidden');
+                    boothActive.classList.remove('hidden');
+                };
+            } catch (err) {
+                console.error("Error accessing webcam: ", err);
+                alert("Could not access the webcam. Please make sure it's enabled and not in use by another application.");
+            }
+        });
+
+        // Take Photo Logic
+        snap.addEventListener('click', () => {
+            // Show loading spinner
+            placeholder.classList.add('hidden');
+            resultContainer.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            // Set canvas dimensions to match video feed
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Draw the current video frame to the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Process the image after a short delay to allow UI to update
+            setTimeout(processImage, 100);
+        });
+        
+        function processImage() {
+            const context = canvas.getContext('2d');
+            
+            // Get the pixel data from the canvas
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // Chroma Keying: Loop through every pixel
+            for (let i = 0; i < data.length; i += 4) {
+                const red = data[i];
+                const green = data[i + 1];
+                const blue = data[i + 2];
+                
+                // Simple but effective green screen check
+                // This checks if green is the dominant color and is bright enough
+                if (green > 90 && green > red * 1.3 && green > blue * 1.3) {
+                    // Set alpha to 0 to make the pixel transparent
+                    data[i + 3] = 0;
+                }
+            }
+            
+            // Put the modified pixel data back
+            context.putImageData(imageData, 0, 0);
+
+            // Composite the foreground with a random background
+            addBackground();
+        }
+
+        function addBackground() {
+            const context = canvas.getContext('2d', { willReadFrequently: true });
+            
+            // Choose a random background
+            const randomBgSrc = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+            
+            const background = new Image();
+            background.crossOrigin = "Anonymous"; // Important for loading images from other domains
+            background.src = randomBgSrc;
+            
+            background.onload = () => {
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+
+                // Draw background first
+                tempCtx.drawImage(background, 0, 0, tempCanvas.width, tempCanvas.height);
+                
+                // Draw the person (with transparent background) on top
+                tempCtx.drawImage(canvas, 0, 0);
+
+                // Get the final image as a PNG data URL
+                const finalImage = tempCanvas.toDataURL('image/png');
+                
+                // Display the final image
+                photo.src = finalImage;
+                downloadLink.href = finalImage;
+                
+                // Update UI
+                loading.classList.add('hidden');
+                resultContainer.classList.remove('hidden');
+                boothActive.classList.add('hidden');
+            };
+            
+            background.onerror = () => {
+                alert('Failed to load the background image. Please check your internet connection.');
+                resetBooth();
+            };
+        }
+        
+        // Try Again Logic
+        tryAgainButton.addEventListener('click', resetBooth);
+
+        function resetBooth() {
+            resultContainer.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+            boothActive.classList.remove('hidden');
+        }
+
+    </script>
+</body>
+</html>
