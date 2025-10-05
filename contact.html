@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact • Arabian Nights Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+            background: #0f172a;
+        }
+        .themed-title { font-family: 'Cinzel Decorative', cursive; }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+    <header class="w-full border-b border-purple-400/20 bg-gray-900/70 backdrop-blur">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="text-sm text-gray-300 hover:text-white transition-colors">← Back</a>
+            <h1 class="themed-title text-2xl sm:text-3xl text-yellow-300">Contact</h1>
+            <span class="w-10"></span>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full">
+        <div class="max-w-3xl mx-auto px-4 py-8 sm:py-12">
+            <section class="mb-8">
+                <h2 class="text-xl sm:text-2xl font-semibold text-purple-200 mb-3">Get in touch with Vandit Mehta</h2>
+                <p class="text-gray-300 leading-relaxed">
+                    Have a question, suggestion, or feedback? Send a message below.
+                </p>
+            </section>
+
+            <form action="mailto:vanditmehta7116@gmail.com" method="POST" enctype="text/plain" class="space-y-4 p-5 rounded-xl border border-purple-400/20 bg-gray-800/40 max-w-xl">
+                <input type="hidden" name="subject" value="Arabian Nights Photo Booth: Contact Message" />
+                <div>
+                    <label for="name" class="block text-sm mb-1 text-gray-300">Name</label>
+                    <input id="name" name="name" type="text" class="w-full rounded-lg bg-gray-900/60 border border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Your name" />
+                </div>
+                <div>
+                    <label for="email" class="block text-sm mb-1 text-gray-300">Email</label>
+                    <input id="email" name="email" type="email" class="w-full rounded-lg bg-gray-900/60 border border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="you@example.com" />
+                </div>
+                <div>
+                    <label for="message" class="block text-sm mb-1 text-gray-300">Message</label>
+                    <textarea id="message" name="message" rows="5" class="w-full rounded-lg bg-gray-900/60 border border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="How can we help?"></textarea>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow">Send</button>
+                    <a href="privacy.html" class="text-sm text-gray-300 hover:text-white">Privacy</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="w-full mt-auto bg-gray-800/60 text-gray-400 text-xs sm:text-sm border-t border-gray-700/50">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col gap-2">
+            <p class="leading-relaxed">We typically respond within a few days.</p>
+            <div class="text-[11px] sm:text-xs opacity-80">© <span id="year"></span> Arabian Nights Photo Booth</div>
+        </div>
+    </footer>
+
+    <script>
+        const y = document.getElementById('year');
+        if (y) y.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
