@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy • Arabian Nights Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+            background: #0f172a;
+        }
+        .themed-title { font-family: 'Cinzel Decorative', cursive; }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+    <header class="w-full border-b border-purple-400/20 bg-gray-900/70 backdrop-blur">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="text-sm text-gray-300 hover:text-white transition-colors">← Back</a>
+            <h1 class="themed-title text-2xl sm:text-3xl text-yellow-300">Privacy</h1>
+            <span class="w-10"></span>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full">
+        <div class="max-w-3xl mx-auto px-4 py-8 sm:py-12 space-y-8">
+            <section>
+                <h2 class="text-xl sm:text-2xl font-semibold text-purple-200 mb-3">Your Privacy Matters</h2>
+                <p class="text-gray-300 leading-relaxed">
+                    Arabian Nights Photo Booth processes your photos locally in your browser using the camera and an HTML canvas. We do not upload your images to any server.
+                </p>
+            </section>
+
+            <section class="grid sm:grid-cols-2 gap-6">
+                <div class="p-5 rounded-xl border border-purple-400/20 bg-gray-800/40">
+                    <h3 class="font-semibold text-purple-200 mb-2">Camera Access</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        The site requests permission to use your camera solely to capture a frame. You can revoke access anytime via your browser settings.
+                    </p>
+                </div>
+                <div class="p-5 rounded-xl border border-purple-400/20 bg-gray-800/40">
+                    <h3 class="font-semibold text-purple-200 mb-2">Image Processing</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Chroma keying and compositing are performed on your device. When you download the final image, it is generated locally.
+                    </p>
+                </div>
+                <div class="p-5 rounded-xl border border-purple-400/20 bg-gray-800/40">
+                    <h3 class="font-semibold text-purple-200 mb-2">Storage</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        We do not persist or store your photos. Your session data is cleared when you refresh or close the page.
+                    </p>
+                </div>
+                <div class="p-5 rounded-xl border border-purple-400/20 bg-gray-800/40">
+                    <h3 class="font-semibold text-purple-200 mb-2">Third‑Party Content</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        If you choose remote backgrounds, exporting may be blocked by CORS. For full privacy and reliability, use the built‑in offline backgrounds.
+                    </p>
+                </div>
+            </section>
+
+            <div class="mt-2 flex items-center gap-3">
+                <a href="index.html" class="inline-block bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow">Return to Photo Booth</a>
+                <a href="contact.html" class="inline-block bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow">Contact</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full mt-auto bg-gray-800/60 text-gray-400 text-xs sm:text-sm border-t border-gray-700/50">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col gap-2">
+            <p class="leading-relaxed">Questions about privacy? Visit the Contact page and reach out.</p>
+            <div class="text-[11px] sm:text-xs opacity-80">© <span id="year"></span> Arabian Nights Photo Booth</div>
+        </div>
+    </footer>
+
+    <script>
+        const y = document.getElementById('year');
+        if (y) y.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+

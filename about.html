@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About • Arabian Nights Photo Booth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+            background: #0f172a; /* slate-900 */
+        }
+        .themed-title {
+            font-family: 'Cinzel Decorative', cursive;
+        }
+    </style>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%238B5CF6'/%3E%3C/svg%3E">
+</head>
+<body class="text-white min-h-screen flex flex-col">
+    <header class="w-full border-b border-purple-400/20 bg-gray-900/70 backdrop-blur">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="text-sm text-gray-300 hover:text-white transition-colors">← Back</a>
+            <h1 class="themed-title text-2xl sm:text-3xl text-yellow-300">About</h1>
+            <span class="w-10"></span>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full">
+        <div class="max-w-3xl mx-auto px-4 py-8 sm:py-12">
+            <section class="mb-8">
+                <h2 class="text-xl sm:text-2xl font-semibold text-purple-200 mb-3">Arabian Nights Photo Booth</h2>
+                <p class="text-gray-300 leading-relaxed">
+                    This playful, browser-based photo booth lets you capture a selfie in front of a green screen and instantly transport yourself into iconic Arabian Nights scenes. It runs entirely on your device using your camera and local images.
+                </p>
+            </section>
+
+            <section class="grid sm:grid-cols-2 gap-6 mb-10">
+                <div class="p-5 rounded-xl border border-purple-400/20 bg-gray-800/40">
+                    <h3 class="font-semibold text-purple-200 mb-2">How it works</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        We perform simple chroma keying in a canvas to remove the green background, then composite your image on themed backdrops. Choose your preferred aspect ratio for portrait or landscape shots.
+                    </p>
+                </div>
+                <div class="p-5 rounded-xl border border-purple-400/20 bg-gray-800/40">
+                    <h3 class="font-semibold text-purple-200 mb-2">Privacy</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        All processing happens locally in your browser. Your photos are not uploaded to a server. You can download your final image directly.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-6">
+                <h3 class="font-semibold text-purple-200 mb-2">Credits</h3>
+                <ul class="list-disc pl-5 text-gray-300 text-sm space-y-1">
+                    <li>Design and implementation inspired by the magic of Arabian Nights.</li>
+                    <li>Built with modern browser APIs and Tailwind CSS.</li>
+                </ul>
+            </section>
+
+            <div class="mt-8">
+                <a href="index.html" class="inline-block bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow">
+                    Return to Photo Booth
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full mt-auto bg-gray-800/60 text-gray-400 text-xs sm:text-sm border-t border-gray-700/50">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col gap-2">
+            <p class="leading-relaxed">Learn more about the project and how it processes your photos locally.</p>
+            <div class="text-[11px] sm:text-xs opacity-80">© <span id="year"></span> Arabian Nights Photo Booth</div>
+        </div>
+    </footer>
+
+    <script>
+        const y = document.getElementById('year');
+        if (y) y.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
