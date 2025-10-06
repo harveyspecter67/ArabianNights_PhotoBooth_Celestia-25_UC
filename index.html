@@ -39,7 +39,6 @@
 
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-stretch lg:items-center justify-center gap-6 sm:gap-8">
         
-        <!-- Left Column: Controls & Live Feed -->
         <div class="w-full lg:w-1/2 flex flex-col items-center gap-3 sm:gap-4">
             <h1 class="themed-title aladin-regular text-4xl sm:text-5xl md:text-6xl text-yellow-300 text-center leading-tight">Arabian Nights</h1>
             <p class="text-xl sm:text-2xl text-white-300 text-center">Photo Booth</p>
@@ -59,18 +58,29 @@
                         </label>
                     </div>
                 </div>
+                <div class="mb-4">
+                    <label class="block mb-2 font-semibold text-purple-200 text-center">Select Camera</label>
+                    <div class="flex items-center justify-center gap-4">
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="camera" value="user" id="camera-front" class="accent-purple-500" checked>
+                            <span>Front</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="camera" value="environment" id="camera-back" class="accent-purple-500">
+                            <span>Back</span>
+                        </label>
+                    </div>
+                </div>
                 <button id="start-camera" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-xl text-lg transition-transform transform hover:scale-105 shadow-lg">
                     Start Camera
                 </button>
             </div>
 
-            <!-- Live Video Feed -->
             <div id="booth-active" class="hidden w-full max-w-2xl relative">
                  <button id="back-to-setup" class="absolute top-3 left-3 z-10 bg-black hover:bg-black text-white px-3 py-2 rounded-5 border border-white/20 shadow">
                      Back
                  </button>
                  <video id="video" autoplay playsinline class="rounded-2xl w-full h-auto aspect-video object-cover border-2 border-purple-400/50 shadow-lg"></video>
-                 <!-- Canvas for processing, hidden from view -->
                  <canvas id="canvas" class="hidden"></canvas>
                  <button id="snap" class="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold h-14 w-14 sm:h-16 sm:w-16 rounded-full text-base sm:text-lg transition-transform transform hover:scale-110 shadow-lg border-4 border-white flex items-center justify-center">
                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
@@ -78,7 +88,6 @@
             </div>
         </div>
 
-        <!-- Right Column: Result -->
         <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-3 sm:p-4 min-h-[300px] sm:min-h-[380px] lg:min-h-[480px]">
             <div id="result-container" class="hidden w-full max-w-2xl flex flex-col items-center gap-3 sm:gap-4">
                 <h2 class="text-xl sm:text-2xl font-bold text-yellow-300 text-center">Your Magical Portrait!</h2>
@@ -87,7 +96,6 @@
                      <a id="download" href="#" download="arabian-nights-photo.png" class="w-full sm:flex-1 text-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl transition-transform transform hover:scale-105 shadow-lg">Download PNG</a>
                      <button id="try-again" class="w-full sm:flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-transform transform hover:scale-105 shadow-lg">Try Again</button>
                 </div>
-                <!-- Portrait-only preview and download -->
                 <div id="portrait-container" class="hidden w-full max-w-sm flex flex-col items-center gap-3">
                     <h3 class="text-lg font-semibold text-yellow-300 text-center">Portrait Preview (9:16)</h3>
                     <img id="photo-portrait" alt="Your portrait photo" loading="lazy" class="rounded-2xl w-full h-auto aspect-[9/16] object-cover border-2 border-yellow-300 shadow-lg"/>
@@ -191,10 +199,14 @@
         // Start Camera Logic
         startButton.addEventListener('click', async () => {
             selectedAspect = aspectPortrait.checked ? 'portrait' : 'landscape';
+            // MODIFIED: Read the selected camera facing mode
+            const selectedCamera = document.querySelector('input[name="camera"]:checked').value;
+
             try {
                 const constraints = {
                     video: {
-                        facingMode: 'user',
+                        // MODIFIED: Use the selected camera
+                        facingMode: selectedCamera,
                         width: { ideal: 1280 },
                         height: { ideal: 720 },
                         aspectRatio: { ideal: getAspectRatio() }
